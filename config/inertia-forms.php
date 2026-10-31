@@ -62,4 +62,24 @@ return [
 
     'icons' => [],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Component & Field Views
+    |--------------------------------------------------------------------------
+    |
+    | Override default package views with your own custom Blade components.
+    | You can map by field type (kebab-case), class FQCN, or structural name.
+    |
+    | 'components' => [
+    |     'text-input' => 'components.forms.text-input',
+    |     'textarea' => 'components.forms.textarea',
+    |     'field' => 'components.forms.field',
+    |     'fieldset' => 'components.forms.fieldset',
+    |     'form' => 'components.forms.form',
+    | ],
+    |
+    */
+
+    'components' => [],
+
 ];

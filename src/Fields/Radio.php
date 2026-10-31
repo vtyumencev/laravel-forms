@@ -26,6 +26,16 @@ class Radio extends Field
         return $this;
     }
 
+    public function isInline(): bool
+    {
+        return $this->inline;
+    }
+
+    public function isButtons(): bool
+    {
+        return $this->buttons;
+    }
+
     /**
      * Render the options as a row of toggle buttons instead of inputs.
      */
@@ -43,6 +53,11 @@ class Radio extends Field
         return $this;
     }
 
+    public function getColumns(): ?int
+    {
+        return $this->columns;
+    }
+
     public function emptyValue(): mixed
     {
         return null;
@@ -51,15 +66,5 @@ class Radio extends Field
     protected function typeRules(): array
     {
         return [$this->inOptionsRule()];
-    }
-
-    protected function props(): array
-    {
-        return [
-            'options' => $this->getOptions(),
-            'inline' => $this->inline,
-            'columns' => $this->columns,
-            'buttons' => $this->buttons,
-        ];
     }
 }

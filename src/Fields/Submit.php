@@ -164,6 +164,46 @@ class Submit extends Field
         return $this;
     }
 
+    public function getType(): string
+    {
+        return 'submit';
+    }
+
+    public function getProcessingLabel(): ?string
+    {
+        return $this->processingLabel;
+    }
+
+    public function getVariant(): string
+    {
+        return $this->variant;
+    }
+
+    public function getSize(): string
+    {
+        return $this->size;
+    }
+
+    public function isFullWidth(): bool
+    {
+        return $this->fullWidth;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function getIconPosition(): string
+    {
+        return $this->iconPosition;
+    }
+
+    public function isDisableUntilDirty(): bool
+    {
+        return $this->disableUntilDirty;
+    }
+
     /**
      * @return array{key: string, value: string}|null
      */

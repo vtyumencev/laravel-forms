@@ -3,23 +3,28 @@
 namespace Erag\InertiaForms\Fields;
 
 use Erag\InertiaForms\Concerns\HasAuthorization;
+use Erag\InertiaForms\Concerns\HasReadonly;
 use Erag\InertiaForms\Concerns\HasVisibility;
 use Erag\InertiaForms\Form;
 use Erag\InertiaForms\Support\Label;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
 use JsonSerializable;
+use Stringable;
 
 /**
  * @implements Arrayable<string, mixed>
  */
-abstract class Field implements Arrayable, JsonSerializable
+abstract class Field implements Arrayable, Htmlable, JsonSerializable, Stringable
 {
     use Conditionable;
     use HasAuthorization;
+    use HasReadonly;
     use HasVisibility;
     use Macroable;
     use Tappable;
@@ -49,6 +54,10 @@ abstract class Field implements Arrayable, JsonSerializable
     protected bool $clearWhenHidden = false;
 
     protected bool $clearable = false;
+
+    protected string $livewireModifier = '';
+
+    protected ?string $view = null;
 
     /** @var array<int, string|ValidationRule|\Closure> */
     protected array $rules = [];
@@ -150,9 +159,36 @@ abstract class Field implements Arrayable, JsonSerializable
         return $this;
     }
 
-    /**
-     * How many columns of the parent fieldset grid this field spans.
-     */
+    public function getType(): string
+    {
+        return strtolower($this->component());
+    }
+
+    public function getPlaceholder(): ?string
+    {
+        return $this->placeholder;
+    }
+
+    public function getHelp(): ?string
+    {
+        return $this->help;
+    }
+
+    public function isDisabled(): bool
+    {
+        return $this->disabled || $this->isCanReadonly();
+    }
+
+    public function isReadonly(): bool
+    {
+        return $this->readonly || $this->isCanReadonly();
+    }
+
+    public function isAutofocus(): bool
+    {
+        return $this->autofocus;
+    }
+
     public function columnSpan(?int $columns): static
     {
         $this->columnSpan = $columns;
@@ -160,9 +196,6 @@ abstract class Field implements Arrayable, JsonSerializable
         return $this;
     }
 
-    /**
-     * Extra CSS classes for the field wrapper.
-     */
     public function class(?string $class): static
     {
         $this->class = $class;
@@ -170,9 +203,6 @@ abstract class Field implements Arrayable, JsonSerializable
         return $this;
     }
 
-    /**
-     * Reset the value to empty when the field becomes hidden in the browser.
-     */
     public function clearWhenHidden(bool $clear = true): static
     {
         $this->clearWhenHidden = $clear;
@@ -180,14 +210,139 @@ abstract class Field implements Arrayable, JsonSerializable
         return $this;
     }
 
-    /**
-     * Show a clear (×) button that empties the value.
-     */
     public function clearable(bool $clearable = true): static
     {
         $this->clearable = $clearable;
 
         return $this;
+    }
+
+    public function getColumnSpan(): ?int
+    {
+        return $this->columnSpan;
+    }
+
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    public function isClearWhenHidden(): bool
+    {
+        return $this->clearWhenHidden;
+    }
+
+    public function isClearable(): bool
+    {
+        return $this->clearable;
+    }
+
+    public function live(bool $live = true, ?int $debounce = null, ?int $throttle = null): static
+    {
+        if (! $live) {
+            $this->livewireModifier = '';
+
+            return $this;
+        }
+
+        $this->livewireModifier = 'live';
+
+        if ($debounce !== null) {
+            $this->livewireModifier .= ".debounce.{$debounce}ms";
+        } elseif ($throttle !== null) {
+            $this->livewireModifier .= ".throttle.{$throttle}ms";
+        }
+
+        return $this;
+    }
+
+    public function blur(bool $blur = true): static
+    {
+        $this->livewireModifier = $blur ? 'live.blur' : '';
+
+        return $this;
+    }
+
+    public function debounce(int $milliseconds): static
+    {
+        $this->livewireModifier = "live.debounce.{$milliseconds}ms";
+
+        return $this;
+    }
+
+    public function throttle(int $milliseconds): static
+    {
+        $this->livewireModifier = "live.throttle.{$milliseconds}ms";
+
+        return $this;
+    }
+
+    public function getLivewireModifier(): string
+    {
+        return $this->livewireModifier;
+    }
+
+    public function wireModelName(?string $statePath = 'state'): string
+    {
+        if ($statePath !== null && $statePath !== '') {
+            return "{$statePath}.{$this->name}";
+        }
+
+        return $this->name;
+    }
+
+    public function getWireModel(?string $statePath = 'state'): string
+    {
+        $binding = 'wire:model'.($this->livewireModifier ? '.'.$this->livewireModifier : '');
+        $model = $this->wireModelName($statePath);
+
+        return "{$binding}=\"{$model}\"";
+    }
+
+    public function view(?string $view): static
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
+    public function getView(): string
+    {
+        if ($this->view !== null) {
+            return $this->view;
+        }
+
+        $component = $this->component();
+        $kebab = Str::kebab($component);
+
+        return config('inertia-forms.components.'.static::class)
+            ?? config("inertia-forms.components.{$component}")
+            ?? config("inertia-forms.components.{$kebab}")
+            ?? "forms::fields.{$kebab}";
+    }
+
+    public function render(?string $statePath = 'state', ?array $data = null): string
+    {
+        return view($this->getView(), [
+            'field' => $this,
+            'statePath' => $statePath,
+            'data' => $data,
+        ])->render();
+    }
+
+    public function toHtml(): string
+    {
+        return $this->render();
+    }
+
+    public function __toString(): string
+    {
+        return $this->toHtml();
+    }
+
+    public function getValidationRules(): array
+    {
+        return $this->validationRules()[$this->name] ?? [];
     }
 
     /**

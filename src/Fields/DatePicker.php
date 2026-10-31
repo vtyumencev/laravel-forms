@@ -3,6 +3,7 @@
 namespace Erag\InertiaForms\Fields;
 
 use DateTimeInterface;
+use Illuminate\View\ComponentAttributeBag;
 
 class DatePicker extends Field
 {
@@ -174,5 +175,30 @@ class DatePicker extends Field
             'minDate' => $this->toInputValue($this->minDate),
             'maxDate' => $this->toInputValue($this->maxDate),
         ];
+    }
+
+    /**
+     * @return ComponentAttributeBag
+     */
+    public function getInputAttributes($statePath = 'state'): ComponentAttributeBag
+    {
+        $attributes = new ComponentAttributeBag();
+
+        $wireModel = $this->wireModelName($statePath);
+        $modifier = $this->getLivewireModifier();
+        $binding = 'wire:model' . ($modifier ? '.' . $modifier : '');
+
+        $attributes->setAttributes([
+            'type' => 'date',
+            'placeholder' => $this->getPlaceholder(),
+            'readonly' => $this->isReadonly(),
+            'disabled' => $this->isDisabled(),
+            'autofocus' => $this->isAutofocus(),
+
+            $binding => $wireModel,
+            'id' => $wireModel,
+        ]);
+
+        return $attributes;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Erag\InertiaForms\Support;
 
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 use JsonSerializable;
 
@@ -39,6 +40,10 @@ final class Condition implements JsonSerializable
      */
     public static function fromArguments(string $field, array $arguments, bool $negate = false): self
     {
+        if (count($arguments) === 0) {
+            return new self($field, 'truthy', null, $negate);
+        }
+
         if (count($arguments) === 1) {
             $value = $arguments[0];
 
@@ -57,7 +62,13 @@ final class Condition implements JsonSerializable
      */
     public function passes(array $data): bool
     {
-        return $this->evaluate(data_get($data, $this->field)) !== $this->negate;
+        $actual = data_get($data, $this->field);
+
+        if ($actual === null && str_contains($this->field, '.')) {
+            $actual = data_get($data, Str::after($this->field, '.'));
+        }
+
+        return $this->evaluate($actual) !== $this->negate;
     }
 
     private function evaluate(mixed $actual): bool
@@ -92,6 +103,14 @@ final class Condition implements JsonSerializable
 
     public static function equals(mixed $actual, mixed $expected): bool
     {
+        if (is_bool($expected)) {
+            return self::isTruthy($actual) === $expected;
+        }
+
+        if (is_bool($actual)) {
+            return $actual === self::isTruthy($expected);
+        }
+
         return self::normalize($actual) === self::normalize($expected);
     }
 

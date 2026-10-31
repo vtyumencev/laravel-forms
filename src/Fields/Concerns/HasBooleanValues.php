@@ -30,6 +30,16 @@ trait HasBooleanValues
         return $this;
     }
 
+    public function getTrueValue(): mixed
+    {
+        return $this->trueValue;
+    }
+
+    public function getFalseValue(): mixed
+    {
+        return $this->falseValue;
+    }
+
     public function emptyValue(): mixed
     {
         return $this->falseValue;

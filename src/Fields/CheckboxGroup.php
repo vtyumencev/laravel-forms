@@ -63,14 +63,4 @@ class CheckboxGroup extends Field
             "{$this->name}.*" => [$this->inOptionsRule()],
         ];
     }
-
-    protected function props(): array
-    {
-        return [
-            'options' => $this->getOptions(),
-            'inline' => $this->inline,
-            'columns' => $this->columns,
-            'buttons' => $this->buttons,
-        ];
-    }
 }

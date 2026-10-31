@@ -1,5 +1,6 @@
 <?php
 
+use Erag\InertiaForms\Fields\TextInput;
 use Erag\InertiaForms\Support\Condition;
 
 it('evaluates operators', function (string $operator, mixed $expected, mixed $actual, bool $result) {
@@ -51,4 +52,26 @@ it('treats valueless operators passed alone as operators', function () {
         ->and($condition->passes(['bio' => 'Hello']))->toBeTrue()
         ->and($condition->passes(['bio' => '']))->toBeFalse()
         ->and(Condition::fromArguments('bio', ['falsy'])->passes(['bio' => 0.0]))->toBeTrue();
+});
+
+it('defaults empty arguments to truthy operator', function () {
+    $condition = Condition::fromArguments('agree', []);
+
+    expect($condition->operator)->toBe('truthy')
+        ->and($condition->passes(['agree' => true]))->toBeTrue()
+        ->and($condition->passes(['agree' => false]))->toBeFalse();
+});
+
+it('supports closure-based visibility in HasVisibility', function () {
+    $field = TextInput::make('email')
+        ->visibleWhen(fn ($data) => ($data['role'] ?? '') === 'admin');
+
+    expect($field->isVisibleFor(['role' => 'admin']))->toBeTrue()
+        ->and($field->isVisibleFor(['role' => 'user']))->toBeFalse();
+
+    $hiddenField = TextInput::make('email')
+        ->hiddenWhen(fn ($data) => ($data['role'] ?? '') === 'guest');
+
+    expect($hiddenField->isVisibleFor(['role' => 'guest']))->toBeFalse()
+        ->and($hiddenField->isVisibleFor(['role' => 'admin']))->toBeTrue();
 });

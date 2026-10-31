@@ -3,11 +3,13 @@
 namespace Erag\InertiaForms;
 
 use Erag\InertiaForms\Concerns\HasAuthorization;
+use Erag\InertiaForms\Concerns\HasReadonly;
 use Erag\InertiaForms\Fields\Field;
 use Erag\InertiaForms\Fields\Fieldset;
 use Erag\InertiaForms\Fields\Submit;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -19,15 +21,17 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use JsonSerializable;
 use LogicException;
+use Stringable;
 
 /**
  * @implements Arrayable<string, mixed>
  */
-abstract class Form implements Arrayable, JsonSerializable
+abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
 {
     use Conditionable;
     use HasAuthorization;
     use Tappable;
+    use HasReadonly;
 
     /**
      * Named route the form submits to. The HTTP method is read from the route.
@@ -72,6 +76,8 @@ abstract class Form implements Arrayable, JsonSerializable
     protected string $wizardNextLabel = 'Continue';
 
     protected string $wizardBackLabel = 'Back';
+
+    protected ?string $view = null;
 
     /** @var Model|array<string, mixed>|null */
     protected Model|array|null $model = null;
@@ -310,15 +316,69 @@ abstract class Form implements Arrayable, JsonSerializable
     public function rules(?array $data = null): array
     {
         $data ??= $this->data();
+        $state = [...$this->data(), ...$data];
         $rules = [];
 
         foreach ($this->valueFields() as ['field' => $field, 'fieldset' => $fieldset]) {
-            if ($fieldset->isVisibleFor($data) && $field->isVisibleFor($data)) {
-                $rules = [...$rules, ...$field->validationRulesFor($data)];
+            if ($fieldset->isAuthorized() && $fieldset->isVisibleFor($state) && $field->isVisibleFor($state)) {
+                $rules = [...$rules, ...$field->validationRulesFor($state)];
             }
         }
 
         return [...$rules, ...$this->intentRules()];
+    }
+
+    /**
+     * Get validation rules, optionally prefixed with a Livewire state path.
+     *
+     * @return array<string, array<int, mixed>>
+     */
+    public function validationRules(?string $statePath = null, ?array $data = null): array
+    {
+        $rules = $this->rules($data);
+
+        if ($statePath === null || $statePath === '') {
+            return $rules;
+        }
+
+        $prefixed = [];
+        foreach ($rules as $key => $rule) {
+            $prefixed["{$statePath}.{$key}"] = $rule;
+        }
+
+        return $prefixed;
+    }
+
+    public function getValidationMessages(?string $statePath = null, array $data = []): array
+    {
+        $messages = $this->validationMessages($data);
+
+        if ($statePath === null || $statePath === '') {
+            return $messages;
+        }
+
+        $prefixed = [];
+        foreach ($messages as $key => $message) {
+            $prefixed["{$statePath}.{$key}"] = $message;
+        }
+
+        return $prefixed;
+    }
+
+    public function getValidationAttributes(?string $statePath = null, array $data = []): array
+    {
+        $attributes = $this->validationAttributes($data);
+
+        if ($statePath === null || $statePath === '') {
+            return $attributes;
+        }
+
+        $prefixed = [];
+        foreach ($attributes as $key => $attribute) {
+            $prefixed["{$statePath}.{$key}"] = $attribute;
+        }
+
+        return $prefixed;
     }
 
     /**
@@ -487,6 +547,16 @@ abstract class Form implements Arrayable, JsonSerializable
         return $this->wizard;
     }
 
+    public function getWizardNextLabel(): string
+    {
+        return $this->wizardNextLabel;
+    }
+
+    public function getWizardBackLabel(): string
+    {
+        return $this->wizardBackLabel;
+    }
+
     /**
      * The fieldsets shown as wizard steps for the given data: visible fieldsets
      * with at least one field that isn't a Submit button.
@@ -494,13 +564,62 @@ abstract class Form implements Arrayable, JsonSerializable
      * @param  array<string, mixed>  $data
      * @return array<int, Fieldset>
      */
-    public function wizardSteps(array $data): array
+    public function wizardSteps(array $data = []): array
     {
+        $state = [...$this->data(), ...$data];
+
         return array_values(array_filter(
             $this->getFieldsets(),
-            fn (Fieldset $fieldset): bool => $fieldset->isVisibleFor($data)
+            fn (Fieldset $fieldset): bool => $fieldset->isAuthorized()
+                && $fieldset->isVisibleFor($state)
                 && collect($fieldset->getFields())->contains(fn (Field $field): bool => ! $field instanceof Submit),
         ));
+    }
+
+    /**
+     * Validation rules for a single wizard step.
+     *
+     * @param  array<string, mixed>|null  $data
+     * @return array<string, array<int, mixed>>
+     */
+    public function getStepRules(int $step, ?string $statePath = null, ?array $data = null): array
+    {
+        $data ??= $this->data();
+        $state = [...$this->data(), ...$data];
+        $fieldset = $this->wizardSteps($state)[$step] ?? null;
+
+        if ($fieldset === null) {
+            return [];
+        }
+
+        $rules = [];
+
+        foreach ($fieldset->getFields() as $field) {
+            if ($field->hasValue() && ! $field->hasFiles() && $field->isVisibleFor($state)) {
+                $rules = [...$rules, ...$field->validationRulesFor($state)];
+            }
+        }
+
+        if ($statePath === null || $statePath === '') {
+            return $rules;
+        }
+
+        $prefixed = [];
+        foreach ($rules as $key => $rule) {
+            $prefixed["{$statePath}.{$key}"] = $rule;
+        }
+
+        return $prefixed;
+    }
+
+    public function getStepValidationMessages(int $step, ?string $statePath = null, array $data = []): array
+    {
+        return $this->getValidationMessages($statePath, $data);
+    }
+
+    public function getStepValidationAttributes(int $step, ?string $statePath = null, array $data = []): array
+    {
+        return $this->getValidationAttributes($statePath, $data);
     }
 
     /**
@@ -518,13 +637,13 @@ abstract class Form implements Arrayable, JsonSerializable
             throw new AuthorizationException;
         }
 
-        $fieldset = $this->wizardSteps($data)[$step] ?? null;
+        $state = [...$this->data(), ...$data];
+        $fieldset = $this->wizardSteps($state)[$step] ?? null;
 
         if ($fieldset === null) {
             return;
         }
 
-        $state = [...$this->data(), ...$data];
         $rules = [];
 
         foreach ($fieldset->getFields() as $field) {
@@ -534,6 +653,42 @@ abstract class Form implements Arrayable, JsonSerializable
         }
 
         Validator::make($data, $rules, $this->validationMessages($state), $this->validationAttributes($state))->validate();
+    }
+
+    /**
+     * Validate step data with state path support.
+     *
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     *
+     * @throws ValidationException
+     * @throws AuthorizationException
+     */
+    public function validateStepData(int $step, array $data, ?string $statePath = null): array
+    {
+        if (! $this->isAuthorized()) {
+            throw new AuthorizationException;
+        }
+
+        $raw = $statePath && isset($data[$statePath]) && is_array($data[$statePath]) ? $data[$statePath] : $data;
+        $state = [...$this->data(), ...$raw];
+
+        if ($statePath !== null && $statePath !== '') {
+            $rules = $this->getStepRules($step, $statePath, $state);
+            $messages = $this->getStepValidationMessages($step, $statePath, $state);
+            $attributes = $this->getStepValidationAttributes($step, $statePath, $state);
+
+            $payload = isset($data[$statePath]) ? $data : [$statePath => $data];
+            $validated = Validator::make($payload, $rules, $messages, $attributes)->validate();
+
+            return $validated[$statePath] ?? $validated;
+        }
+
+        $rules = $this->getStepRules($step, null, $state);
+        $messages = $this->validationMessages($state);
+        $attributes = $this->validationAttributes($state);
+
+        return Validator::make($raw, $rules, $messages, $attributes)->validate();
     }
 
     public function accent(?string $color): static
@@ -548,6 +703,94 @@ abstract class Form implements Arrayable, JsonSerializable
         $this->class = $class;
 
         return $this;
+    }
+
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    public function initialValues(): array
+    {
+        return $this->data();
+    }
+
+    public function defaultState(): array
+    {
+        return $this->initialValues();
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     *
+     * @throws ValidationException
+     * @throws AuthorizationException
+     */
+    public function validateData(array $data, ?string $statePath = null): array
+    {
+        if (! $this->isAuthorized()) {
+            throw new AuthorizationException;
+        }
+
+        $raw = $statePath && isset($data[$statePath]) && is_array($data[$statePath]) ? $data[$statePath] : $data;
+        $state = [...$this->data(), ...$raw];
+
+        if ($statePath !== null && $statePath !== '') {
+            $rules = $this->validationRules($statePath, $state);
+            $messages = $this->getValidationMessages($statePath, $state);
+            $attributes = $this->getValidationAttributes($statePath, $state);
+
+            $payload = isset($data[$statePath]) ? $data : [$statePath => $data];
+            $validated = Validator::make($payload, $rules, $messages, $attributes)->validate();
+
+            return $validated[$statePath] ?? $validated;
+        }
+
+        $rules = $this->rules($state);
+        $messages = $this->validationMessages($state);
+        $attributes = $this->validationAttributes($state);
+
+        return Validator::make($raw, $rules, $messages, $attributes)->validate();
+    }
+
+    public function view(?string $view): static
+    {
+        $this->view = $view;
+
+        return $this;
+    }
+
+    public function getView(): string
+    {
+        if ($this->view !== null) {
+            return $this->view;
+        }
+
+        return config('inertia-forms.components.'.static::class)
+            ?? config('inertia-forms.components.form')
+            ?? 'forms::form';
+    }
+
+    public function render(?string $statePath = 'state', ?string $action = null, ?int $currentStep = null, ?array $data = null): string
+    {
+        return view($this->getView(), [
+            'form' => $this,
+            'statePath' => $statePath,
+            'action' => $action,
+            'currentStep' => $currentStep,
+            'data' => $data,
+        ])->render();
+    }
+
+    public function toHtml(): string
+    {
+        return $this->render();
+    }
+
+    public function __toString(): string
+    {
+        return $this->toHtml();
     }
 
     /**

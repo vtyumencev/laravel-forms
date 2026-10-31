@@ -54,6 +54,36 @@ class Textarea extends Field
         return $this;
     }
 
+    public function getType(): string
+    {
+        return 'textarea';
+    }
+
+    public function getRows(): int
+    {
+        return $this->rows;
+    }
+
+    public function isAutoResize(): bool
+    {
+        return $this->autoResize;
+    }
+
+    public function getMinLength(): ?int
+    {
+        return $this->minLength;
+    }
+
+    public function getMaxLength(): ?int
+    {
+        return $this->maxLength;
+    }
+
+    public function isShowCharacterCount(): bool
+    {
+        return $this->showCharacterCount;
+    }
+
     protected function typeRules(): array
     {
         return array_values(array_filter([
