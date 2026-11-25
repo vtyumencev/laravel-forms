@@ -19,7 +19,7 @@ export interface FormContextValue {
     setValue: (name: string, value: unknown) => void;
 }
 
-const FORM_CONTEXT = Symbol('erag-inertia-forms');
+const FORM_CONTEXT = Symbol('erag-livewire-forms');
 
 /** Share the form context with every field below. Call during component initialisation. */
 export function setFormContext(context: FormContextValue): FormContextValue {

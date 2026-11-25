@@ -8,7 +8,7 @@ export interface SubmitterContext {
     readonly active: HTMLElement | null;
 }
 
-const SUBMITTER_CONTEXT = Symbol('erag-inertia-forms-submitter');
+const SUBMITTER_CONTEXT = Symbol('erag-livewire-forms-submitter');
 
 /** Share the submitting button with the submit buttons below. Call during component initialisation. */
 export function setSubmitterContext(context: SubmitterContext): SubmitterContext {

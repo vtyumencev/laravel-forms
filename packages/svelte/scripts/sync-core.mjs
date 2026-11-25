@@ -22,4 +22,4 @@ for (const file of files) {
     copyFileSync(join(source, file), join(target, file));
 }
 
-console.log(`[inertia-forms] Synced ${files.length} core files into src/lib/core.`);
+console.log(`[livewire-forms] Synced ${files.length} core files into src/lib/core.`);

@@ -1,17 +1,17 @@
 <?php
 
-use Erag\InertiaForms\Fields\CheckboxGroup;
-use Erag\InertiaForms\Fields\DatePicker;
-use Erag\InertiaForms\Fields\Fieldset;
-use Erag\InertiaForms\Fields\Radio;
-use Erag\InertiaForms\Fields\Select;
-use Erag\InertiaForms\Fields\TagsInput;
-use Erag\InertiaForms\Fields\TextInput;
-use Erag\InertiaForms\Fields\TimePicker;
-use Erag\InertiaForms\Fields\Toggle;
-use Erag\InertiaForms\Form;
-use Erag\InertiaForms\Tests\Fixtures\ContactForm;
-use Erag\InertiaForms\Tests\Fixtures\Plan;
+use Xenio\LivewireForms\Fields\CheckboxGroup;
+use Xenio\LivewireForms\Fields\DatePicker;
+use Xenio\LivewireForms\Fields\Fieldset;
+use Xenio\LivewireForms\Fields\Radio;
+use Xenio\LivewireForms\Fields\Select;
+use Xenio\LivewireForms\Fields\TagsInput;
+use Xenio\LivewireForms\Fields\TextInput;
+use Xenio\LivewireForms\Fields\TimePicker;
+use Xenio\LivewireForms\Fields\Toggle;
+use Xenio\LivewireForms\Form;
+use Xenio\LivewireForms\Tests\Fixtures\ContactForm;
+use Xenio\LivewireForms\Tests\Fixtures\Plan;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -130,7 +130,7 @@ it('returns an empty structure for unauthorized forms', function () {
     expect($form['fieldsets'])->toBe([])
         ->and($form['action'])->toBeNull();
 
-    config()->set('inertia-forms.throw_on_unauthorized', true);
+    config()->set('livewire-forms.throw_on_unauthorized', true);
 
     ContactForm::make()->authorize(false)->toArray();
 })->throws(AuthorizationException::class);

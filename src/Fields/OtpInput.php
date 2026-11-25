@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
 /**
  * A one-time code, one box per character, with paste and browser autofill.

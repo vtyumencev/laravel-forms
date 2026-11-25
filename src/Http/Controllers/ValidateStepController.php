@@ -1,8 +1,8 @@
 <?php
 
-namespace Erag\InertiaForms\Http\Controllers;
+namespace Xenio\LivewireForms\Http\Controllers;
 
-use Erag\InertiaForms\Form;
+use Xenio\LivewireForms\Form;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
 /**
  * Repeating groups of the same fields, like links, contacts or line items.

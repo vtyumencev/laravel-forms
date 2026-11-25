@@ -1,9 +1,14 @@
+@php use Xenio\LivewireForms\Fields\Button; @endphp
 @props([
     'field',
     'statePath' => 'state',
 ])
 
 @php
+    /**
+    * @var Button $field
+    */
+
     $attributes ??= new \Illuminate\View\ComponentAttributeBag();
 
     $attributes->setAttributes([

@@ -95,7 +95,7 @@
         if (field.component === 'Hidden' || field.component === 'Submit') return null;
         const component = components[field.component];
         if (!component) {
-            console.warn(`[inertia-forms] No component registered for "${field.component}".`);
+            console.warn(`[livewire-forms] No component registered for "${field.component}".`);
         }
         return component ?? null;
     });

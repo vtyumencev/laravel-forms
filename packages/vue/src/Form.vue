@@ -39,7 +39,7 @@ import type { FormEmits, FormProps, FormSlots } from './types';
 import WizardSteps from './WizardSteps.vue';
 
 /**
- * Renders a form defined with `erag/inertia-forms` in Laravel.
+ * Renders a form defined with `erag/livewire-forms` in Laravel.
  *
  *     <Form :form="form" @success="() => toast('Saved')" />
  *
@@ -242,7 +242,7 @@ async function continueWizard() {
             goToStep(index + 1);
         }
     } catch (error) {
-        console.warn('[inertia-forms] Could not check the wizard step.', error);
+        console.warn('[livewire-forms] Could not check the wizard step.', error);
     } finally {
         checkingStep.value = false;
     }
@@ -274,7 +274,7 @@ function submit(event: Event) {
     const action = schema.value.action;
     if (!action) {
         console.warn(
-            '[inertia-forms] The form has no action. Set $actionRoute, route(), or url() on the form class.',
+            '[livewire-forms] The form has no action. Set $actionRoute, route(), or url() on the form class.',
         );
         return;
     }

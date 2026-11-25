@@ -1,7 +1,7 @@
 {
-    "name": "@erag/inertia-forms-svelte",
+    "name": "@erag/livewire-forms-svelte",
     "version": "0.0.1",
-    "description": "Svelte renderer for erag/inertia-forms. Render Laravel-defined forms with one <Form> component.",
+    "description": "Svelte renderer for erag/livewire-forms. Render Laravel-defined forms with one <Form> component.",
     "type": "module",
     "license": "MIT",
     "author": {
@@ -10,7 +10,7 @@
         "url": "https://erag.in"
     },
     "bugs": {
-        "url": "https://github.com/eramitgupta/laravel-Inertia-forms/issues"
+        "url": "https://github.com/eramitgupta/laravel-livewire-forms/issues"
     },
     "funding": {
         "type": "github",
@@ -18,10 +18,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/eramitgupta/laravel-Inertia-forms.git",
+        "url": "git+https://github.com/eramitgupta/laravel-livewire-forms.git",
         "directory": "packages/svelte"
     },
-    "homepage": "https://erag.in/laravel-inertia-forms/",
+    "homepage": "https://erag.in/laravel-livewire-forms/",
     "keywords": [
         "svelte",
         "inertia",

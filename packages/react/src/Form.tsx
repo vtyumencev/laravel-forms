@@ -46,7 +46,7 @@ import type { FormProps } from './types';
 import { WizardSteps } from './WizardSteps';
 
 /**
- * Renders a form defined with `erag/inertia-forms` in Laravel.
+ * Renders a form defined with `erag/livewire-forms` in Laravel.
  *
  *     <Form form={form} onSuccess={() => toast('Saved')} />
  */
@@ -176,7 +176,7 @@ export function Form({
                 goToStep(currentStep + 1);
             }
         } catch (error) {
-            console.warn('[inertia-forms] Could not check the wizard step.', error);
+            console.warn('[livewire-forms] Could not check the wizard step.', error);
         } finally {
             checking.current = false;
             setCheckingStep(false);
@@ -205,7 +205,7 @@ export function Form({
         if (proceed === false) return;
         if (!schema.action) {
             console.warn(
-                '[inertia-forms] The form has no action. Set $actionRoute, route(), or url() on the form class.',
+                '[livewire-forms] The form has no action. Set $actionRoute, route(), or url() on the form class.',
             );
             return;
         }

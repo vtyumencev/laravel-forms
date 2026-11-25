@@ -33,7 +33,7 @@ export async function fetchOptions(
         body: JSON.stringify({ form: search.token, field: search.field, search: term }),
     });
 
-    if (!response.ok) throw new Error(`[inertia-forms] Option search failed (${response.status}).`);
+    if (!response.ok) throw new Error(`[livewire-forms] Option search failed (${response.status}).`);
 
     const body = (await response.json()) as { options?: FieldOption[] };
     return Array.isArray(body.options) ? body.options : [];

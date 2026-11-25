@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
 /**
  * A horizontal line between parts of a form.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
 /**
  * A paragraph of plain text. The text is escaped, so it is safe for any value.

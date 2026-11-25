@@ -1,4 +1,4 @@
-## Inertia Forms (erag/inertia-forms)
+## Inertia Forms (erag/livewire-forms)
 
 Forms are defined in one PHP class and rendered by one `<Form>` component in Vue, React or Svelte. Never hand-write inputs, form state, or error handling for a form that can be a form class.
 
@@ -7,7 +7,7 @@ Forms are defined in one PHP class and rendered by one `<Form>` component in Vue
 - Validate with the `#[Validate]` attribute on the controller parameter and save only `$form->validated()`, never `$request->all()`.
 - Rules come from the fields (`required()`, `email()`, `maxLength()`, options, file types); add more with `rules([...])`.
 - `visibleWhen()` / `hiddenWhen()` only change the UI and skip hidden fields in validation. Use `authorizedWhen()` / `authorize()` for fields a user must never see or submit.
-- Icons: `icon('rocket')` on `Submit`, `Fieldset` (wizard steps) and `Callout`. Over 200 names are built in; add more with `Icon::register()` or `config('inertia-forms.icons')`.
+- Icons: `icon('rocket')` on `Submit`, `Fieldset` (wizard steps) and `Callout`. Over 200 names are built in; add more with `Icon::register()` or `config('livewire-forms.icons')`.
 
 @verbatim
 <code-snippet name="A form class and its controller" lang="php">
@@ -36,4 +36,4 @@ public function store(#[Validate] CreateUserForm $form): RedirectResponse
 </code-snippet>
 @endverbatim
 
-Use the `inertia-forms-development` skill for the full field list, layout, wizards, uploads and custom fields. Full docs: https://erag.in/laravel-inertia-forms/llms.txt
+Use the `livewire-forms-development` skill for the full field list, layout, wizards, uploads and custom fields. Full docs: https://erag.in/laravel-livewire-forms/llms.txt

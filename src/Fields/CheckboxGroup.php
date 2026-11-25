@@ -1,8 +1,8 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
-use Erag\InertiaForms\Fields\Concerns\HasOptions;
+use Xenio\LivewireForms\Fields\Concerns\HasOptions;
 
 class CheckboxGroup extends Field
 {

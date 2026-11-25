@@ -1,7 +1,7 @@
 {
-    "name": "@erag/inertia-forms-react",
+    "name": "@erag/livewire-forms-react",
     "version": "0.0.1",
-    "description": "React renderer for erag/inertia-forms. Render Laravel-defined forms with one <Form> component.",
+    "description": "React renderer for erag/livewire-forms. Render Laravel-defined forms with one <Form> component.",
     "type": "module",
     "license": "MIT",
     "author": {
@@ -10,7 +10,7 @@
         "url": "https://erag.in"
     },
     "bugs": {
-        "url": "https://github.com/eramitgupta/laravel-Inertia-forms/issues"
+        "url": "https://github.com/eramitgupta/laravel-livewire-forms/issues"
     },
     "funding": {
         "type": "github",
@@ -18,10 +18,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/eramitgupta/laravel-Inertia-forms.git",
+        "url": "git+https://github.com/eramitgupta/laravel-livewire-forms.git",
         "directory": "packages/react"
     },
-    "homepage": "https://erag.in/laravel-inertia-forms/",
+    "homepage": "https://erag.in/laravel-livewire-forms/",
     "keywords": [
         "react",
         "inertia",
@@ -35,13 +35,13 @@
         "dist",
         "README.md"
     ],
-    "main": "./dist/inertia-forms-react.js",
-    "module": "./dist/inertia-forms-react.js",
+    "main": "./dist/livewire-forms-react.js",
+    "module": "./dist/livewire-forms-react.js",
     "types": "./dist/react/src/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/react/src/index.d.ts",
-            "import": "./dist/inertia-forms-react.js"
+            "import": "./dist/livewire-forms-react.js"
         }
     },
     "sideEffects": false,

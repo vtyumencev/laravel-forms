@@ -1,7 +1,7 @@
 <?php
 
-use Erag\InertiaForms\Fields\KeyValue;
-use Erag\InertiaForms\Form;
+use Xenio\LivewireForms\Fields\KeyValue;
+use Xenio\LivewireForms\Form;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 

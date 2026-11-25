@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Support;
+namespace Xenio\LivewireForms\Support;
 
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -22,7 +22,7 @@ final class Icon
     public const array BUILT_IN = [
         'x', 'chevronDown', 'chevronUp', 'chevronLeft', 'chevronRight', 'chevronsLeft', 'chevronsRight',
         'check', 'calendar', 'clock', 'grip', 'upload', 'plus', 'trash', 'eyedropper', 'copy',
-        'composerPaperclip', 'composerFile', 'composerSend', 'circleInfo', 'circleCheck', 'triangleAlert',
+        'composerPaperclip', 'composerFile', 'composerSend', 'circleCheck', 'triangleAlert',
         'circleX', 'linkChain', 'slugRegenerate', 'send', 'arrowRight', 'arrowLeft', 'save', 'user',
         'briefcase', 'shield', 'mail', 'lock', 'mapPin', 'creditCard', 'sliders', 'fileText', 'home', 'flag',
     ];
@@ -60,7 +60,7 @@ final class Icon
         }
 
         $key = self::normalize($name);
-        $configured = config('inertia-forms.icons', []);
+        $configured = config('livewire-forms.icons', []);
 
         if (isset(self::$registered[$key])) {
             return self::$registered[$key];
@@ -99,7 +99,7 @@ final class Icon
     public static function names(): array
     {
         $configured = array_map(self::normalize(...), array_filter(
-            array_keys((array) config('inertia-forms.icons', [])),
+            array_keys((array) config('livewire-forms.icons', [])),
             is_string(...),
         ));
 

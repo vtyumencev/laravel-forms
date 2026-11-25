@@ -1,8 +1,8 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
-use Erag\InertiaForms\Support\Label;
+use Xenio\LivewireForms\Support\Label;
 use Illuminate\Contracts\Support\Arrayable;
 use JsonSerializable;
 

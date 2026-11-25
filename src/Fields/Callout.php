@@ -1,8 +1,8 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
-use Erag\InertiaForms\Support\Icon;
+use Xenio\LivewireForms\Support\Icon;
 
 /**
  * A notice inside the form: `Callout::make('Review required', 'Confirm the billing contact.')->warning()`.
@@ -17,7 +17,7 @@ class Callout extends DisplayField
 
     protected string $tone = 'info';
 
-    protected ?string $icon = null;
+    protected ?string $icon = 'circleInfo';
 
     public static function make(string $name = '', ?string $body = null): static
     {
@@ -88,14 +88,24 @@ class Callout extends DisplayField
         return $this;
     }
 
-    protected function props(): array
+    public function getTitle(): ?string
     {
-        return [
-            'title' => $this->title,
-            'body' => $this->body,
-            'tone' => $this->tone,
-            'icon' => $this->icon,
-            'iconSvg' => Icon::svg($this->icon),
-        ];
+        return $this->title;
+    }
+
+    public function getBody(): ?string
+    {
+        return $this->body;
+    }
+
+    public function getIcon(): ?string
+    {
+        return Icon::svg($this->icon);
+    }
+
+
+    public function getTone(): ?string
+    {
+        return $this->tone;
     }
 }

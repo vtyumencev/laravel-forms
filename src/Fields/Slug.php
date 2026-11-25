@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
 /**
  * A URL-safe slug, filled in live from another field (e.g. the title) until

@@ -1,8 +1,8 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
-use Erag\InertiaForms\Fields\Concerns\HasBooleanValues;
+use Xenio\LivewireForms\Fields\Concerns\HasBooleanValues;
 
 class Toggle extends Field
 {

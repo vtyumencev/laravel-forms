@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Support;
+namespace Xenio\LivewireForms\Support;
 
 use Illuminate\Support\Str;
 use InvalidArgumentException;

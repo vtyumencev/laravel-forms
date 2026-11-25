@@ -119,7 +119,7 @@ export function FieldRenderer({
     const error = fieldError(errors, field.name, field.component);
 
     if (!Component) {
-        console.warn(`[inertia-forms] No component registered for "${field.component}".`);
+        console.warn(`[livewire-forms] No component registered for "${field.component}".`);
         return null;
     }
 

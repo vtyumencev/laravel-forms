@@ -2,7 +2,7 @@ import { getPath } from './paths';
 import type { VisibilityCondition } from './types';
 
 /**
- * Mirrors `Erag\InertiaForms\Support\Condition` so the browser and the
+ * Mirrors `Xenio\LivewireForms\Support\Condition` so the browser and the
  * server agree on which fields are visible.
  */
 export function normalize(value: unknown): string {

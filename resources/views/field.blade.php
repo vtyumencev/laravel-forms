@@ -1,9 +1,13 @@
 @php
-    use Erag\InertiaForms\Fields\Button;
-    use Erag\InertiaForms\Fields\Checkbox;
-    use Erag\InertiaForms\Fields\Hidden;
-    use Erag\InertiaForms\Fields\Radio;
-    use Erag\InertiaForms\Fields\Submit;
+    use Xenio\LivewireForms\Fields\Button;
+    use Xenio\LivewireForms\Fields\Callout;
+    use Xenio\LivewireForms\Fields\Checkbox;
+    use Xenio\LivewireForms\Fields\Heading;
+    use Xenio\LivewireForms\Fields\Hidden;
+    use Xenio\LivewireForms\Fields\Radio;
+    use Xenio\LivewireForms\Fields\Submit;
+    use Xenio\LivewireForms\Fields\DisplayField;
+    use Xenio\LivewireForms\Fields\Summary;
     use Illuminate\View\ComponentAttributeBag;
 @endphp
 
@@ -21,20 +25,23 @@
     @php
         $attributes ??= new ComponentAttributeBag();
         $wireModel = $field->wireModelName($statePath);
-        $spanClass = match($field->getColumnSpan()) {
-            2 => 'md:col-span-2',
-            3 => 'md:col-span-3',
-            4 => 'md:col-span-4',
-            default => '',
-        };
     @endphp
 
-    <div wire:key="field-wrapper-{{ $wireModel }}" class="w-full {{ $spanClass }} {{ $field->getClass() ?? '' }}">
+    @if(! $field instanceof Heading && ! $field instanceof Summary)
+
+    <div @class([
+            'w-full',
+            $field->getClass(),
+            'md:col-span-2' => $field->getColumnSpan() === 2,
+            'md:col-span-3' => $field->getColumnSpan() === 3,
+            'md:col-span-4' => $field->getColumnSpan() === 4,
+            ])
+         wire:key="field-wrapper-{{ $wireModel }}">
         @if ($field instanceof Radio)
             <span class="block text-sm font-bold mb-1">
-                {{ $field->getLabel() }}
+                {!! $field->getLabel() !!}
             </span>
-        @elseif (! $field instanceof Button && ! $field instanceof Hidden && ! $field instanceof Checkbox)
+        @elseif (! $field instanceof Button && ! $field instanceof Hidden && ! $field instanceof Checkbox && ! $field instanceof DisplayField)
             <label for="{{ $wireModel }}" class="block text-sm font-bold mb-1">
                 {{ $field->getLabel() }}
                 @if ($field->isRequired())
@@ -43,14 +50,21 @@
             </label>
         @endif
 
+    @endif
+
         {!! $field->render($statePath, $state) !!}
 
         @if ($field->getHelp())
             <p class="mt-1 text-xs text-gray-500">{{ $field->getHelp() }}</p>
         @endif
 
+    @if(! $field instanceof Heading && ! $field instanceof Summary)
         @if (isset($errors) && $errors->has($wireModel))
-            <p class="mt-1 text-sm text-red-600">{{ $errors->first($wireModel) }}</p>
+            <p class="mt-1 text-sm text-red-600">
+                {!! $errors->first($wireModel) !!}
+            </p>
         @endif
     </div>
+
+    @endif
 @endif

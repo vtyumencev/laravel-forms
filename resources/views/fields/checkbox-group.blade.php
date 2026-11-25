@@ -5,7 +5,7 @@
 <div class="space-y-2">
     @foreach ($field->getOptions() as $option)
         @include('forms::fields.checkbox', [
-            'field' => new \Erag\InertiaForms\Fields\Checkbox($field->getName())->label($option['label'])->live(),
+            'field' => new \Xenio\LivewireForms\Fields\Checkbox($field->getName())->label($option['label'])->live(),
             'value' => $option['value'],
             'statePath' => 'state',
         ])

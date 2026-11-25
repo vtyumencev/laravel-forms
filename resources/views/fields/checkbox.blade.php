@@ -43,7 +43,7 @@
                         stroke-linejoin="round"
                         pathLength="1"
                         class="transition-[stroke-dashoffset] duration-300 ease-out"
-                        :style="`stroke-dasharray: 1; stroke-dashoffset: {!! $v !!}`"
+                        x-bind:style="`stroke-dasharray: 1; stroke-dashoffset: {!! $v !!}`"
                     />
                 </svg>
             </span>

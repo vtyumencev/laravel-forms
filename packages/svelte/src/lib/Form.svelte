@@ -67,7 +67,7 @@
     import WizardSteps from './WizardSteps.svelte';
 
     /**
-     * Renders a form defined with `erag/inertia-forms` in Laravel.
+     * Renders a form defined with `erag/livewire-forms` in Laravel.
      *
      *     <Form {form} onSuccess={() => toast('Saved')} />
      */
@@ -225,7 +225,7 @@
                 goToStep(index + 1);
             }
         } catch (error) {
-            console.warn('[inertia-forms] Could not check the wizard step.', error);
+            console.warn('[livewire-forms] Could not check the wizard step.', error);
         } finally {
             checkingStep = false;
         }
@@ -257,7 +257,7 @@
         if (proceed === false) return;
         if (!schema.action) {
             console.warn(
-                '[inertia-forms] The form has no action. Set $actionRoute, route(), or url() on the form class.',
+                '[livewire-forms] The form has no action. Set $actionRoute, route(), or url() on the form class.',
             );
             return;
         }

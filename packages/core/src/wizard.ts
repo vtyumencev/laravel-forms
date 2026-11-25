@@ -157,7 +157,7 @@ export async function validateWizardStep(
         );
     }
 
-    if (!response.ok) throw new Error(`[inertia-forms] Step check failed (${response.status}).`);
+    if (!response.ok) throw new Error(`[livewire-forms] Step check failed (${response.status}).`);
 
     return null;
 }

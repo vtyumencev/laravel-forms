@@ -26,7 +26,7 @@ return [
     */
 
     'search' => [
-        'uri' => '_inertia-forms/search',
+        'uri' => '_livewire-forms/search',
         'middleware' => ['web', 'throttle:60,1'],
     ],
 
@@ -41,7 +41,7 @@ return [
     */
 
     'wizard' => [
-        'uri' => '_inertia-forms/validate-step',
+        'uri' => '_livewire-forms/validate-step',
         'middleware' => ['web', 'throttle:60,1'],
     ],
 

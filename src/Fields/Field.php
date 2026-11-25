@@ -1,12 +1,12 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
-use Erag\InertiaForms\Concerns\HasAuthorization;
-use Erag\InertiaForms\Concerns\HasReadonly;
-use Erag\InertiaForms\Concerns\HasVisibility;
-use Erag\InertiaForms\Form;
-use Erag\InertiaForms\Support\Label;
+use Xenio\LivewireForms\Concerns\HasAuthorization;
+use Xenio\LivewireForms\Concerns\HasLimitedFields;
+use Xenio\LivewireForms\Concerns\HasVisibility;
+use Xenio\LivewireForms\Form;
+use Xenio\LivewireForms\Support\Label;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -24,7 +24,7 @@ abstract class Field implements Arrayable, Htmlable, JsonSerializable, Stringabl
 {
     use Conditionable;
     use HasAuthorization;
-    use HasReadonly;
+    use HasLimitedFields;
     use HasVisibility;
     use Macroable;
     use Tappable;
@@ -176,12 +176,12 @@ abstract class Field implements Arrayable, Htmlable, JsonSerializable, Stringabl
 
     public function isDisabled(): bool
     {
-        return $this->disabled || $this->isCanReadonly();
+        return $this->disabled;
     }
 
     public function isReadonly(): bool
     {
-        return $this->readonly || $this->isCanReadonly();
+        return $this->readonly;
     }
 
     public function isAutofocus(): bool
@@ -315,9 +315,9 @@ abstract class Field implements Arrayable, Htmlable, JsonSerializable, Stringabl
         $component = $this->component();
         $kebab = Str::kebab($component);
 
-        return config('inertia-forms.components.'.static::class)
-            ?? config("inertia-forms.components.{$component}")
-            ?? config("inertia-forms.components.{$kebab}")
+        return config('livewire-forms.components.'.static::class)
+            ?? config("livewire-forms.components.{$component}")
+            ?? config("livewire-forms.components.{$kebab}")
             ?? "forms::fields.{$kebab}";
     }
 

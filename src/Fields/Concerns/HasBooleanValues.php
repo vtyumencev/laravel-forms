@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Fields\Concerns;
+namespace Xenio\LivewireForms\Fields\Concerns;
 
 use Illuminate\Validation\Rule;
 

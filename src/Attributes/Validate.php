@@ -1,9 +1,9 @@
 <?php
 
-namespace Erag\InertiaForms\Attributes;
+namespace Xenio\LivewireForms\Attributes;
 
 use Attribute;
-use Erag\InertiaForms\Form;
+use Xenio\LivewireForms\Form;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Container\ContextualAttribute;
 use InvalidArgumentException;

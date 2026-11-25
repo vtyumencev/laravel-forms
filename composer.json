@@ -1,5 +1,5 @@
 {
-    "name": "vtyumencev/laravel-forms",
+    "name": "vtyumencev/livewire-forms",
     "description": "Define Laravel forms in PHP and render them with Livewire. Validation, conditional visibility, authorization, and model binding included.",
     "keywords": [
         "laravel",
@@ -12,26 +12,14 @@
     ],
     "type": "library",
     "license": "MIT",
-    "homepage": "https://erag.in/laravel-inertia-forms/",
     "authors": [
-        {
-            "name": "Er Amit Gupta",
-            "email": "info.eramitgupta@gmail.com",
-            "homepage": "https://erag.in",
-            "role": "Creator & Maintainer"
-        }
+
     ],
     "support": {
-        "issues": "https://github.com/eramitgupta/laravel-Inertia-forms/issues",
-        "source": "https://github.com/eramitgupta/laravel-Inertia-forms",
-        "docs": "https://erag.in/laravel-inertia-forms/",
-        "security": "https://github.com/eramitgupta/laravel-Inertia-forms/security/policy"
+
     },
     "funding": [
-        {
-            "type": "github",
-            "url": "https://github.com/sponsors/eramitgupta"
-        }
+
     ],
     "require": {
         "php": "^8.3",
@@ -52,18 +40,18 @@
     },
     "autoload": {
         "psr-4": {
-            "Erag\\InertiaForms\\": "src/"
+            "Xenio\\LivewireForms\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Erag\\InertiaForms\\Tests\\": "tests/"
+            "Xenio\\LivewireForms\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Erag\\InertiaForms\\InertiaFormsServiceProvider"
+                "Xenio\\LivewireForms\\LivewireFormsServiceProvider"
             ]
         }
     },

@@ -5,5 +5,5 @@ import type { InjectionKey, Ref } from 'vue';
  * processing state. `null` means any button may show it.
  */
 export const submitterKey: InjectionKey<Readonly<Ref<HTMLElement | null>>> = Symbol(
-    'erag-inertia-forms-submitter',
+    'erag-livewire-forms-submitter',
 );

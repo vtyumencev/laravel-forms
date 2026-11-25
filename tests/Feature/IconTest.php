@@ -1,11 +1,11 @@
 <?php
 
-use Erag\InertiaForms\Fields\Callout;
-use Erag\InertiaForms\Fields\Fieldset;
-use Erag\InertiaForms\Fields\Submit;
-use Erag\InertiaForms\Fields\TextInput;
-use Erag\InertiaForms\Support\Icon;
-use Erag\InertiaForms\Support\IconSetEnum;
+use Xenio\LivewireForms\Fields\Callout;
+use Xenio\LivewireForms\Fields\Fieldset;
+use Xenio\LivewireForms\Fields\Submit;
+use Xenio\LivewireForms\Fields\TextInput;
+use Xenio\LivewireForms\Support\Icon;
+use Xenio\LivewireForms\Support\IconSetEnum;
 
 afterEach(fn () => Icon::flushRegistered());
 
@@ -59,7 +59,7 @@ it('registers icons from code and config, replacing package icons', function () 
     Icon::register('dot', 'M12 12h.01');
     Icon::register('box', '<svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18"/></svg>');
     Icon::register('user', '<circle cx="12" cy="12" r="4"/>');
-    config(['inertia-forms.icons' => ['brand-mark' => '<path d="M4 4h16"/>']]);
+    config(['livewire-forms.icons' => ['brand-mark' => '<path d="M4 4h16"/>']]);
 
     expect(Icon::svg('bolt'))->toBe('<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>')
         ->and(Icon::svg('dot'))->toBe('<path d="M12 12h.01"/>')

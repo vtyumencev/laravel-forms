@@ -11,7 +11,7 @@ Security is important to Laravel Inertia Forms. If you find a security issue, pl
 
 Security fixes are provided for the latest release.
 
-This policy covers `erag/inertia-forms` and its Vue, React, and Svelte packages.
+This policy covers `erag/livewire-forms` and its Vue, React, and Svelte packages.
 
 ## Reporting a Vulnerability
 
@@ -19,7 +19,7 @@ This policy covers `erag/inertia-forms` and its Vue, React, and Svelte packages.
 
 To report a vulnerability:
 
-1. Visit the [GitHub Security page](https://github.com/eramitgupta/laravel-Inertia-forms/security).
+1. Visit the [GitHub Security page](https://github.com/eramitgupta/laravel-livewire-forms/security).
 2. Click **Report a vulnerability**.
 3. Describe the issue and include steps to reproduce it.
 
@@ -54,4 +54,4 @@ When using Laravel Inertia Forms:
 
 Thanks for helping keep Laravel Inertia Forms secure for everyone.
 
-**[Report a Security Issue](https://github.com/eramitgupta/laravel-Inertia-forms/security)**
+**[Report a Security Issue](https://github.com/eramitgupta/laravel-livewire-forms/security)**

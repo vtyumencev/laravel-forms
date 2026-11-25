@@ -1,13 +1,13 @@
 <?php
 
-namespace Erag\InertiaForms\Tests\Fixtures;
+namespace Xenio\LivewireForms\Tests\Fixtures;
 
-use Erag\InertiaForms\Fields\Fieldset;
-use Erag\InertiaForms\Fields\FileUpload;
-use Erag\InertiaForms\Fields\Submit;
-use Erag\InertiaForms\Fields\Textarea;
-use Erag\InertiaForms\Fields\TextInput;
-use Erag\InertiaForms\Form;
+use Xenio\LivewireForms\Fields\Fieldset;
+use Xenio\LivewireForms\Fields\FileUpload;
+use Xenio\LivewireForms\Fields\Submit;
+use Xenio\LivewireForms\Fields\Textarea;
+use Xenio\LivewireForms\Fields\TextInput;
+use Xenio\LivewireForms\Form;
 
 class OnboardingForm extends Form
 {

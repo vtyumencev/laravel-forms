@@ -1,9 +1,9 @@
 <?php
 
-namespace Erag\InertiaForms\Http\Controllers;
+namespace Xenio\LivewireForms\Http\Controllers;
 
-use Erag\InertiaForms\Fields\Combobox;
-use Erag\InertiaForms\Form;
+use Xenio\LivewireForms\Fields\Combobox;
+use Xenio\LivewireForms\Form;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

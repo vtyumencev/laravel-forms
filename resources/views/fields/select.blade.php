@@ -18,10 +18,6 @@
     @if ($field->isAutofocus()) autofocus @endif
     {{ $attributes->merge(['class' => 'block w-full px-[.6em] py-[.5em] border border-gamma/50 disabled:opacity-50']) }}
 >
-    @if ($field->getPlaceholder() || ! $field->isRequired())
-        <option value="">{{ $field->getPlaceholder() ?? 'Select an option' }}</option>
-    @endif
-
     @foreach ($options as $option)
         @if (is_array($option) && array_key_exists('value', $option))
             <option value="{{ $option['value'] }}" @if(!empty($option['disabled'])) disabled @endif>

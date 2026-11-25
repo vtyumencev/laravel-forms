@@ -1,11 +1,11 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
-use Erag\InertiaForms\Concerns\HasAuthorization;
-use Erag\InertiaForms\Concerns\HasReadonly;
-use Erag\InertiaForms\Concerns\HasVisibility;
-use Erag\InertiaForms\Support\Icon;
+use Xenio\LivewireForms\Concerns\HasAuthorization;
+use Xenio\LivewireForms\Concerns\HasLimitedFields;
+use Xenio\LivewireForms\Concerns\HasVisibility;
+use Xenio\LivewireForms\Support\Icon;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Traits\Conditionable;
@@ -23,7 +23,7 @@ class Fieldset implements Arrayable, Htmlable, JsonSerializable, Stringable
 {
     use Conditionable;
     use HasAuthorization;
-    use HasReadonly;
+    use HasLimitedFields;
     use HasVisibility;
     use Macroable;
     use Tappable;
@@ -149,6 +149,12 @@ class Fieldset implements Arrayable, Htmlable, JsonSerializable, Stringable
         return $this->class;
     }
 
+    public function disabled(): static
+    {
+        //TODO: implement disabled with inset
+        return $this;
+    }
+
     public function getIcon(): ?string
     {
         return $this->icon;
@@ -167,8 +173,8 @@ class Fieldset implements Arrayable, Htmlable, JsonSerializable, Stringable
             return $this->view;
         }
 
-        return config('inertia-forms.components.'.static::class)
-            ?? config('inertia-forms.components.fieldset')
+        return config('livewire-forms.components.'.static::class)
+            ?? config('livewire-forms.components.fieldset')
             ?? 'forms::fieldset';
     }
 

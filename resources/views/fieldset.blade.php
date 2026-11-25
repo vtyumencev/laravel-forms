@@ -28,7 +28,7 @@
     <div class="grid {{ $gridCols }} gap-4">
         @foreach ($fieldset->getFields() as $field)
             @if ($field->isAuthorized() && $field->isVisibleFor($state))
-                @include(config('inertia-forms.components.field', 'forms::field'), [
+                @include(config('livewire-forms.components.field', 'forms::field'), [
                     'field' => $field,
                     'statePath' => $statePath,
                     'data' => $state,

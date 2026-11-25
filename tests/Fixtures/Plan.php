@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Tests\Fixtures;
+namespace Xenio\LivewireForms\Tests\Fixtures;
 
 enum Plan: string
 {

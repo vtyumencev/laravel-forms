@@ -1,8 +1,8 @@
 <?php
 
-use Erag\InertiaForms\Fields\Select;
-use Erag\InertiaForms\Form;
-use Erag\InertiaForms\Tests\Fixtures\AuthorForm;
+use Xenio\LivewireForms\Fields\Select;
+use Xenio\LivewireForms\Form;
+use Xenio\LivewireForms\Tests\Fixtures\AuthorForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\ValidationException;
@@ -16,7 +16,7 @@ it('serializes the search endpoint and only the selected option', function () {
     $field = $schema['fieldsets'][0]['fields'][0];
 
     expect($field['searchable'])->toBeTrue()
-        ->and($field['search']['url'])->toBe(route('inertia-forms.search'))
+        ->and($field['search']['url'])->toBe(route('livewire-forms.search'))
         ->and($field['search']['field'])->toBe('author_id')
         ->and(Crypt::decryptString($field['search']['token']))->toBe(AuthorForm::class)
         ->and($field['options'])->toBe([
@@ -33,13 +33,13 @@ it('keeps local selects unchanged', function () {
 it('returns matching options from the search endpoint', function () {
     $token = AuthorForm::make()->formToken();
 
-    $this->postJson(route('inertia-forms.search'), ['form' => $token, 'field' => 'author_id', 'search' => 'mor'])
+    $this->postJson(route('livewire-forms.search'), ['form' => $token, 'field' => 'author_id', 'search' => 'mor'])
         ->assertOk()
         ->assertExactJson(['options' => [
             ['value' => 3, 'label' => 'Morgan Vale', 'description' => 'morgan@example.test', 'disabled' => false],
         ]]);
 
-    $this->postJson(route('inertia-forms.search'), ['form' => $token, 'field' => 'author_id'])
+    $this->postJson(route('livewire-forms.search'), ['form' => $token, 'field' => 'author_id'])
         ->assertOk()
         ->assertJsonCount(3, 'options');
 });
@@ -47,14 +47,14 @@ it('returns matching options from the search endpoint', function () {
 it('rejects tampered tokens, non-form classes, unknown fields and unauthorized forms', function () {
     $token = AuthorForm::make()->formToken();
 
-    $this->postJson(route('inertia-forms.search'), ['form' => 'tampered', 'field' => 'author_id'])->assertNotFound();
-    $this->postJson(route('inertia-forms.search'), ['form' => Crypt::encryptString(stdClass::class), 'field' => 'author_id'])->assertNotFound();
-    $this->postJson(route('inertia-forms.search'), ['form' => $token, 'field' => 'missing'])->assertNotFound();
-    $this->postJson(route('inertia-forms.search'), ['form' => $token])->assertUnprocessable();
+    $this->postJson(route('livewire-forms.search'), ['form' => 'tampered', 'field' => 'author_id'])->assertNotFound();
+    $this->postJson(route('livewire-forms.search'), ['form' => Crypt::encryptString(stdClass::class), 'field' => 'author_id'])->assertNotFound();
+    $this->postJson(route('livewire-forms.search'), ['form' => $token, 'field' => 'missing'])->assertNotFound();
+    $this->postJson(route('livewire-forms.search'), ['form' => $token])->assertUnprocessable();
 
     AuthorForm::$allowed = false;
 
-    $this->postJson(route('inertia-forms.search'), ['form' => $token, 'field' => 'author_id'])->assertForbidden();
+    $this->postJson(route('livewire-forms.search'), ['form' => $token, 'field' => 'author_id'])->assertForbidden();
 });
 
 it('validates submitted values against the real records', function () {

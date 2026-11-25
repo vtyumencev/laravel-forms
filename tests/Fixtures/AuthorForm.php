@@ -1,9 +1,9 @@
 <?php
 
-namespace Erag\InertiaForms\Tests\Fixtures;
+namespace Xenio\LivewireForms\Tests\Fixtures;
 
-use Erag\InertiaForms\Fields\Select;
-use Erag\InertiaForms\Form;
+use Xenio\LivewireForms\Fields\Select;
+use Xenio\LivewireForms\Form;
 
 class AuthorForm extends Form
 {

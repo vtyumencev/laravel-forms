@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Support;
+namespace Xenio\LivewireForms\Support;
 
 /**
  * The icon set shipped with the package. The value is the name used with
@@ -115,6 +115,7 @@ enum IconSetEnum: string
     case Circle = 'circle';
     case ToggleLeft = 'toggleLeft';
     case ToggleRight = 'toggleRight';
+    case CircleInfo = 'circleInfo';
 
     // Commerce
     case ShoppingCart = 'shoppingCart';
@@ -312,6 +313,7 @@ enum IconSetEnum: string
             self::CircleHelp => 'M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01',
             self::CirclePlus => 'M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0M12 8v8M8 12h8',
             self::CircleMinus => 'M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0M8 12h8',
+            self::CircleInfo => 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM12 16v-4M12 8h.01',
             self::CheckSquare => 'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2zM8 12l3 3 5-6',
             self::Square => 'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2z',
             self::Circle => 'M2 12a10 10 0 1 0 20 0a10 10 0 1 0 -20 0',
@@ -420,7 +422,7 @@ enum IconSetEnum: string
             self::Pencil, self::Scissors, self::Type, self::Bold, self::Italic, self::Underline, self::Heading, self::AlignLeft, self::AlignCenter, self::AlignRight, self::Hash, self::Code, self::Terminal => 'Text and code',
             self::Minus, self::Search, self::ZoomIn, self::ZoomOut, self::Filter, self::Refresh, self::Undo, self::Redo, self::History, self::Share, self::ExternalLink, self::LogIn, self::LogOut, self::Power, self::Settings, self::MoreHorizontal, self::MoreVertical, self::Menu, self::Grid, self::List, self::Eye, self::EyeOff, self::Heart, self::Star, self::Tag, self::Zap, self::MousePointer, self::Move, self::Maximize, self::Minimize, self::Ban => 'Actions',
             self::ArrowUp, self::ArrowDown, self::ArrowUpRight, self::ArrowDownLeft, self::ChevronsUp, self::ChevronsDown, self::Repeat => 'Arrows',
-            self::CircleAlert, self::CircleHelp, self::CirclePlus, self::CircleMinus, self::CheckSquare, self::Square, self::Circle, self::ToggleLeft, self::ToggleRight => 'Status and controls',
+            self::CircleAlert, self::CircleHelp, self::CirclePlus, self::CircleMinus, self::CheckSquare, self::Square, self::Circle, self::ToggleLeft, self::ToggleRight, self::CircleInfo => 'Status and controls',
             self::ShoppingCart, self::ShoppingBag, self::Package, self::Truck, self::Receipt, self::Wallet, self::Banknote, self::DollarSign, self::Percent, self::Gift, self::Calculator, self::Landmark, self::Ticket, self::Crown, self::Gem => 'Commerce',
             self::CalendarCheck, self::CalendarPlus, self::Hourglass => 'Time',
             self::Globe, self::Map, self::Building, self::Navigation, self::Compass, self::Anchor => 'Places',

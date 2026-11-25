@@ -1,13 +1,13 @@
 ---
-name: inertia-forms-development
-description: Build Laravel forms with erag/inertia-forms. Use when creating or changing a form class in app/Forms, adding fields, layout, conditional fields, wizards, file uploads or icons, validating with #[Validate], or rendering <Form> in Vue, React or Svelte.
+name: livewire-forms-development
+description: Build Laravel forms with erag/livewire-forms. Use when creating or changing a form class in app/Forms, adding fields, layout, conditional fields, wizards, file uploads or icons, validating with #[Validate], or rendering <Form> in Vue, React or Svelte.
 ---
 
 # Inertia Forms Development
 
 ## When to use this skill
 
-Use it for any form in an app that has `erag/inertia-forms` installed: create, edit, settings, sign-up, checkout, multi-step and chat-style forms. One PHP class holds the fields, layout, validation and submit target; the frontend renders it with one `<Form>` component.
+Use it for any form in an app that has `erag/livewire-forms` installed: create, edit, settings, sign-up, checkout, multi-step and chat-style forms. One PHP class holds the fields, layout, validation and submit target; the frontend renders it with one `<Form>` component.
 
 ## Workflow
 
@@ -15,7 +15,7 @@ Use it for any form in an app that has `erag/inertia-forms` installed: create, e
 2. Return fields (and fieldsets) from `fields()`. Set `protected ?string $actionRoute = 'profile.update';` and `protected ?string $method = 'put';` (or `->put()`) when it isn't a POST.
 3. Controller: `Inertia::render('Profile/Edit', ['form' => EditProfileForm::make()->bind($user)])`.
 4. Store/update: `public function update(#[Validate] EditProfileForm $form)` then save `$form->validated()`.
-5. Page: `<Form :form="form" />` (Vue, `@erag/inertia-forms-vue`), `<Form form={form} />` (React, `@erag/inertia-forms-react`) or `<Form {form} />` (Svelte, `@erag/inertia-forms-svelte`).
+5. Page: `<Form :form="form" />` (Vue, `@erag/livewire-forms-vue`), `<Form form={form} />` (React, `@erag/livewire-forms-react`) or `<Form {form} />` (Svelte, `@erag/livewire-forms-svelte`).
 
 ## Fields
 
@@ -73,7 +73,7 @@ class CheckoutForm extends Form
 
 - Without `$wizard`, fieldsets render one after another; `columns()` sets the grid and `columnSpan()` a field's width.
 - Several `Submit` buttons with `intent('draft')` / `intent('publish')` send `intent` with the data; read it with `$form->validated('intent')`.
-- Icons: over 200 names such as `user`, `rocket`, `shoppingCart` (or `shopping-cart`); register your own with `Icon::register('bolt', '<path d="…"/>')` or `config('inertia-forms.icons')`.
+- Icons: over 200 names such as `user`, `rocket`, `shoppingCart` (or `shopping-cart`); register your own with `Icon::register('bolt', '<path d="…"/>')` or `config('livewire-forms.icons')`.
 
 ## Rules to follow
 
@@ -82,4 +82,4 @@ class CheckoutForm extends Form
 - Don't duplicate rules in a FormRequest; the fields already produce them. Add extra ones with `rules()`.
 - Custom fields: a PHP class extending `Field` with `component()` returning a name, and a frontend component registered with `<Form :components="{ Name: Component }" />`.
 
-Docs: https://erag.in/laravel-inertia-forms/ (LLM-friendly index: https://erag.in/laravel-inertia-forms/llms.txt).
+Docs: https://erag.in/laravel-livewire-forms/ (LLM-friendly index: https://erag.in/laravel-livewire-forms/llms.txt).

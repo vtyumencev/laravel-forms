@@ -1,8 +1,8 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
-use Erag\InertiaForms\Support\Icon;
+use Xenio\LivewireForms\Support\Icon;
 use InvalidArgumentException;
 
 /**

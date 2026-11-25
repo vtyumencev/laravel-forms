@@ -18,7 +18,7 @@ export default defineConfig({
         lib: {
             entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
             formats: ['es'],
-            fileName: 'inertia-forms-react',
+            fileName: 'livewire-forms-react',
         },
         rollupOptions: {
             external: ['react', 'react-dom', 'react/jsx-runtime', '@inertiajs/react'],

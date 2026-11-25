@@ -1,11 +1,11 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
 use Closure;
-use Erag\InertiaForms\Fields\Concerns\HasOptions;
-use Erag\InertiaForms\Form;
-use Erag\InertiaForms\Support\Options;
+use Xenio\LivewireForms\Fields\Concerns\HasOptions;
+use Xenio\LivewireForms\Form;
+use Xenio\LivewireForms\Support\Options;
 
 /**
  * A dropdown of options: single or multiple, with local search
@@ -121,7 +121,7 @@ class Combobox extends Field
 
         if ($this->isRemote()) {
             $this->search = [
-                'url' => route('inertia-forms.search'),
+                'url' => route('livewire-forms.search'),
                 'token' => $form->formToken(),
                 'field' => $this->name,
             ];

@@ -1,13 +1,13 @@
 <?php
 
-namespace Erag\InertiaForms\Tests\Fixtures;
+namespace Xenio\LivewireForms\Tests\Fixtures;
 
-use Erag\InertiaForms\Fields\Checkbox;
-use Erag\InertiaForms\Fields\Fieldset;
-use Erag\InertiaForms\Fields\Select;
-use Erag\InertiaForms\Fields\Submit;
-use Erag\InertiaForms\Fields\TextInput;
-use Erag\InertiaForms\Form;
+use Xenio\LivewireForms\Fields\Checkbox;
+use Xenio\LivewireForms\Fields\Fieldset;
+use Xenio\LivewireForms\Fields\Select;
+use Xenio\LivewireForms\Fields\Submit;
+use Xenio\LivewireForms\Fields\TextInput;
+use Xenio\LivewireForms\Form;
 
 class ContactForm extends Form
 {

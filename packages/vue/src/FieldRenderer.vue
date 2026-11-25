@@ -107,7 +107,7 @@ const labelMode = computed(() =>
 
 watchEffect(() => {
     if (!isSpecial.value && !component.value) {
-        console.warn(`[inertia-forms] No component registered for "${props.field.component}".`);
+        console.warn(`[livewire-forms] No component registered for "${props.field.component}".`);
     }
 });
 </script>

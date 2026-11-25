@@ -1,6 +1,6 @@
 <?php
 
-use Erag\InertiaForms\Tests\Fixtures\OnboardingForm;
+use Xenio\LivewireForms\Tests\Fixtures\OnboardingForm;
 
 it('serializes wizard settings and step icons', function () {
     $schema = OnboardingForm::make()->toArray();
@@ -8,7 +8,7 @@ it('serializes wizard settings and step icons', function () {
     expect($schema['wizard'])->toMatchArray([
         'nextLabel' => 'Continue',
         'backLabel' => 'Back',
-        'validateUrl' => route('inertia-forms.validate-step'),
+        'validateUrl' => route('livewire-forms.validate-step'),
     ])
         ->and($schema['fieldsets'][0]['icon'])->toBe('user')
         ->and(OnboardingForm::make()->wizard(false)->toArray()['wizard'])->toBeNull();
@@ -23,7 +23,7 @@ it('uses visible fieldsets with fields as steps', function () {
 
 it('validates one step at a time through the endpoint', function () {
     $token = OnboardingForm::make()->formToken();
-    $url = route('inertia-forms.validate-step');
+    $url = route('livewire-forms.validate-step');
 
     $this->postJson($url, ['form' => $token, 'step' => 0, 'data' => ['name' => 'Jane']])
         ->assertUnprocessable()

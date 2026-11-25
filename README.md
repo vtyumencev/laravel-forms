@@ -8,7 +8,7 @@ Define your fields, layout, and validation rules in Laravel. The package handles
 
 Whether you're creating a simple contact form or a multi-step wizard, Laravel Inertia Forms helps you build forms with less repetitive code.
 
-[Documentation](https://erag.in/laravel-inertia-forms/) · [Live Demo](https://erag.in/laravel-inertia-forms/demo.html) · [Demo Apps](#demo-apps) · [Sponsor](https://github.com/sponsors/eramitgupta)
+[Documentation](https://erag.in/laravel-livewire-forms/) · [Live Demo](https://erag.in/laravel-livewire-forms/demo.html) · [Demo Apps](#demo-apps) · [Sponsor](https://github.com/sponsors/eramitgupta)
 
 </div>
 
@@ -50,13 +50,13 @@ This makes forms easier to build, update, and maintain, especially as your appli
 First, install the Laravel package using Composer:
 
 ```bash
-composer require erag/inertia-forms
+composer require erag/livewire-forms
 ```
 
 Run the installation command:
 
 ```bash
-php artisan erag:install-inertia-forms
+php artisan erag:install-livewire-forms
 ```
 
 Next, install the frontend package for the framework you're using.
@@ -64,24 +64,24 @@ Next, install the frontend package for the framework you're using.
 **Vue**
 
 ```bash
-npm install @erag/inertia-forms-vue
+npm install @erag/livewire-forms-vue
 ```
 
 **React**
 
 ```bash
-npm install @erag/inertia-forms-react
+npm install @erag/livewire-forms-react
 ```
 
 **Svelte**
 
 ```bash
-npm install @erag/inertia-forms-svelte
+npm install @erag/livewire-forms-svelte
 ```
 
 You only need the frontend package for your chosen framework.
 
-For setup instructions and usage examples, check the [official documentation](https://erag.in/laravel-inertia-forms/).
+For setup instructions and usage examples, check the [official documentation](https://erag.in/laravel-livewire-forms/).
 
 ---
 
@@ -141,9 +141,9 @@ This lets you extend the package while keeping the same form-building approach.
 
 The documentation covers installation, form definitions, validation, conditional fields, authorization, layouts, custom components, and more.
 
-**[Read the Official Documentation →](https://erag.in/laravel-inertia-forms/)**
+**[Read the Official Documentation →](https://erag.in/laravel-livewire-forms/)**
 
-You can also explore the [Live Demo](https://erag.in/laravel-inertia-forms/demo.html) to see the available fields and form features in action.
+You can also explore the [Live Demo](https://erag.in/laravel-livewire-forms/demo.html) to see the available fields and form features in action.
 
 ---
 
@@ -159,9 +159,9 @@ You can clone a demo project, explore the implementation, and see how forms are 
 
 | Framework | Repository |
 |---|---|
-| ⚛️ React | [Laravel Inertia Forms — React Demo](https://github.com/eramitgupta/demo-Inertia-forms-react) |
-| 💚 Vue | [Laravel Inertia Forms — Vue Demo](https://github.com/eramitgupta/demo-Inertia-forms-vue) |
-| 🧡 Svelte | [Laravel Inertia Forms — Svelte Demo](https://github.com/eramitgupta/demo-Inertia-forms-savlte) |
+| ⚛️ React | [Laravel Inertia Forms — React Demo](https://github.com/eramitgupta/demo-livewire-forms-react) |
+| 💚 Vue | [Laravel Inertia Forms — Vue Demo](https://github.com/eramitgupta/demo-livewire-forms-vue) |
+| 🧡 Svelte | [Laravel Inertia Forms — Svelte Demo](https://github.com/eramitgupta/demo-livewire-forms-savlte) |
 
 ---
 
@@ -171,7 +171,7 @@ If Laravel Inertia Forms is useful in your project, consider giving the reposito
 
 It helps other Laravel developers discover the package and supports its continued development.
 
-⭐ **[Star Laravel Inertia Forms on GitHub](https://github.com/eramitgupta/laravel-Inertia-forms)**
+⭐ **[Star Laravel Inertia Forms on GitHub](https://github.com/eramitgupta/laravel-livewire-forms)**
 
 ---
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Console;
+namespace Xenio\LivewireForms\Console;
 
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Attribute\AsCommand;

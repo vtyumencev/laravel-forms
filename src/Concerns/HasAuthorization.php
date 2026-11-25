@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Concerns;
+namespace Xenio\LivewireForms\Concerns;
 
 use Closure;
 

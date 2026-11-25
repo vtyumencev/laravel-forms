@@ -1,15 +1,15 @@
 <?php
 
-namespace Erag\InertiaForms\Tests;
+namespace Xenio\LivewireForms\Tests;
 
-use Erag\InertiaForms\InertiaFormsServiceProvider;
+use Xenio\LivewireForms\LivewireFormsServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
 {
     protected function getPackageProviders($app): array
     {
-        return [InertiaFormsServiceProvider::class];
+        return [LivewireFormsServiceProvider::class];
     }
 
     protected function defineEnvironment($app): void

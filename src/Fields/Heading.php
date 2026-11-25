@@ -1,6 +1,6 @@
 <?php
 
-namespace Erag\InertiaForms\Fields;
+namespace Xenio\LivewireForms\Fields;
 
 /**
  * A heading inside the form, e.g. `Heading::make('Billing details')->level(3)`.
@@ -38,8 +38,16 @@ class Heading extends DisplayField
         return $this;
     }
 
-    protected function props(): array
+    /**
+     * @return string
+     */
+    public function getText(): string
     {
-        return ['text' => $this->text, 'level' => $this->level];
+        return $this->text;
+    }
+
+    public function getLevel(): int
+    {
+        return $this->level;
     }
 }

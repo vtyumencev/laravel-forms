@@ -18,7 +18,7 @@
 
 <div @class([
         'flex flex-wrap gap-4 gap-y-2' => $field->isInline(),
-        'flex flex-col gap-y-2' => !$field->isInline() && !$field->isButtons(),
+        'flex flex-col gap-y-1' => !$field->isInline() && !$field->isButtons(),
         'flex flex-wrap inline-flex' => $field->isButtons(),
         'grid gap-4' => $field->getColumns(),
         'md:grid-cols-2' => $field->getColumns() === 2,

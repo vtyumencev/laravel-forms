@@ -1,7 +1,7 @@
 {
-    "name": "@erag/inertia-forms-vue",
+    "name": "@erag/livewire-forms-vue",
     "version": "0.0.1",
-    "description": "Vue 3 renderer for erag/inertia-forms. Render Laravel-defined forms with one <Form> component.",
+    "description": "Vue 3 renderer for erag/livewire-forms. Render Laravel-defined forms with one <Form> component.",
     "type": "module",
     "license": "MIT",
     "author": {
@@ -10,7 +10,7 @@
         "url": "https://erag.in"
     },
     "bugs": {
-        "url": "https://github.com/eramitgupta/laravel-Inertia-forms/issues"
+        "url": "https://github.com/eramitgupta/laravel-livewire-forms/issues"
     },
     "funding": {
         "type": "github",
@@ -18,10 +18,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/eramitgupta/laravel-Inertia-forms.git",
+        "url": "git+https://github.com/eramitgupta/laravel-livewire-forms.git",
         "directory": "packages/vue"
     },
-    "homepage": "https://erag.in/laravel-inertia-forms/",
+    "homepage": "https://erag.in/laravel-livewire-forms/",
     "keywords": [
         "vue",
         "vue3",
@@ -36,13 +36,13 @@
         "dist",
         "README.md"
     ],
-    "main": "./dist/inertia-forms-vue.js",
-    "module": "./dist/inertia-forms-vue.js",
+    "main": "./dist/livewire-forms-vue.js",
+    "module": "./dist/livewire-forms-vue.js",
     "types": "./dist/vue/src/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/vue/src/index.d.ts",
-            "import": "./dist/inertia-forms-vue.js"
+            "import": "./dist/livewire-forms-vue.js"
         }
     },
     "sideEffects": false,

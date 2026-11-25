@@ -1,7 +1,7 @@
 <?php
 
-use Erag\InertiaForms\Fields\TextInput;
-use Erag\InertiaForms\Support\Condition;
+use Xenio\LivewireForms\Fields\TextInput;
+use Xenio\LivewireForms\Support\Condition;
 
 it('evaluates operators', function (string $operator, mixed $expected, mixed $actual, bool $result) {
     expect((new Condition('field', $operator, $expected))->passes(['field' => $actual]))->toBe($result);

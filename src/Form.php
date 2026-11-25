@@ -1,18 +1,20 @@
 <?php
 
-namespace Erag\InertiaForms;
+namespace Xenio\LivewireForms;
 
-use Erag\InertiaForms\Concerns\HasAuthorization;
-use Erag\InertiaForms\Concerns\HasReadonly;
-use Erag\InertiaForms\Fields\Field;
-use Erag\InertiaForms\Fields\Fieldset;
-use Erag\InertiaForms\Fields\Submit;
+use Xenio\LivewireForms\Concerns\HasAuthorization;
+use Xenio\LivewireForms\Concerns\HasLimitedFields;
+use Xenio\LivewireForms\Fields\Button;
+use Xenio\LivewireForms\Fields\Field;
+use Xenio\LivewireForms\Fields\Fieldset;
+use Xenio\LivewireForms\Fields\Submit;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Traits\Conditionable;
@@ -31,7 +33,7 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
     use Conditionable;
     use HasAuthorization;
     use Tappable;
-    use HasReadonly;
+    use HasLimitedFields;
 
     /**
      * Named route the form submits to. The HTTP method is read from the route.
@@ -293,6 +295,27 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
         return $data;
     }
 
+    /**
+     * Replace values for fields protected by canReadonly() with their
+     * server-side initial values. Readonly state is presentation-only unless
+     * the submitted value is normalized here before validation.
+     *
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    public function protectCanReadonlyValues(array $data): array
+    {
+        $authoritative = $this->data();
+
+        foreach ($this->valueFields() as ['field' => $field]) {
+            if ($this->isFieldLimited($field->getName())) {
+                data_set($data, $field->getName(), data_get($authoritative, $field->getName()));
+            }
+        }
+
+        return $data;
+    }
+
     protected function hasBoundValue(string $name): bool
     {
         if ($this->model === null) {
@@ -468,7 +491,7 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
         }
 
         $request ??= request();
-        $input = $request->all();
+        $input = $this->protectCanReadonlyValues($request->all());
         $state = [...$this->data(), ...$input];
 
         $validated = Validator::make(
@@ -566,6 +589,7 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
      */
     public function wizardSteps(array $data = []): array
     {
+        $data = $this->protectCanReadonlyValues($data);
         $state = [...$this->data(), ...$data];
 
         return array_values(array_filter(
@@ -574,6 +598,17 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
                 && $fieldset->isVisibleFor($state)
                 && collect($fieldset->getFields())->contains(fn (Field $field): bool => ! $field instanceof Submit),
         ));
+    }
+
+    /**
+     * @param  array<string, mixed>  $data
+     * @return Collection<Fieldset>
+     */
+    public function wizardSubmitButtons(array $data = []): Collection
+    {
+        return new Collection($this->getFieldsets())
+            ->flatMap(fn (Fieldset $fieldset): array => collect($fieldset->getFields())->filter(fn (Field $field): bool => $field instanceof Submit)->all());
+
     }
 
     /**
@@ -637,6 +672,7 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
             throw new AuthorizationException;
         }
 
+        $data = $this->protectCanReadonlyValues($data);
         $state = [...$this->data(), ...$data];
         $fieldset = $this->wizardSteps($state)[$step] ?? null;
 
@@ -671,6 +707,7 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
         }
 
         $raw = $statePath && isset($data[$statePath]) && is_array($data[$statePath]) ? $data[$statePath] : $data;
+        $raw = $this->protectCanReadonlyValues($raw);
         $state = [...$this->data(), ...$raw];
 
         if ($statePath !== null && $statePath !== '') {
@@ -678,7 +715,7 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
             $messages = $this->getStepValidationMessages($step, $statePath, $state);
             $attributes = $this->getStepValidationAttributes($step, $statePath, $state);
 
-            $payload = isset($data[$statePath]) ? $data : [$statePath => $data];
+            $payload = [$statePath => $raw];
             $validated = Validator::make($payload, $rules, $messages, $attributes)->validate();
 
             return $validated[$statePath] ?? $validated;
@@ -767,8 +804,8 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
             return $this->view;
         }
 
-        return config('inertia-forms.components.'.static::class)
-            ?? config('inertia-forms.components.form')
+        return config('livewire-forms.components.'.static::class)
+            ?? config('livewire-forms.components.form')
             ?? 'forms::form';
     }
 
@@ -801,7 +838,7 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
     public function toArray(): array
     {
         if (! $this->isAuthorized()) {
-            if (config('inertia-forms.throw_on_unauthorized', false)) {
+            if (config('livewire-forms.throw_on_unauthorized', false)) {
                 throw new AuthorizationException;
             }
 
@@ -838,7 +875,7 @@ abstract class Form implements Arrayable, Htmlable, JsonSerializable, Stringable
             'wizard' => $this->wizard ? [
                 'nextLabel' => $this->wizardNextLabel,
                 'backLabel' => $this->wizardBackLabel,
-                'validateUrl' => route('inertia-forms.validate-step'),
+                'validateUrl' => route('livewire-forms.validate-step'),
                 'token' => $this->formToken(),
             ] : null,
         ];

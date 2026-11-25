@@ -1,9 +1,9 @@
 <?php
 
-namespace Erag\InertiaForms\Concerns;
+namespace Xenio\LivewireForms\Concerns;
 
 use Closure;
-use Erag\InertiaForms\Support\Condition;
+use Xenio\LivewireForms\Support\Condition;
 
 trait HasVisibility
 {

@@ -1,14 +1,19 @@
 <?php
 
-namespace Erag\InertiaForms\Concerns;
+namespace Xenio\LivewireForms\Concerns;
 
-use Erag\InertiaForms\Form;
+use Xenio\LivewireForms\Fields\Heading;
+use Xenio\LivewireForms\Form;
 
 trait InteractsWithForms
 {
     public array $state = [];
 
     public int $currentStep = 0;
+
+    public function updatedWizardStep(): void
+    {
+    }
 
     public function mountInteractsWithForms(): void
     {
@@ -67,6 +72,7 @@ trait InteractsWithForms
     public function getFormRules(string $stateProperty = 'state', ?string $formMethod = 'form'): array
     {
         if (method_exists($this, $formMethod)) {
+            $this->protectFormState($stateProperty, $formMethod);
             /** @var Form $form */
             $form = $this->{$formMethod}();
 
@@ -100,8 +106,18 @@ trait InteractsWithForms
         return [];
     }
 
+    public function protectFormState(string $stateProperty = 'state', ?string $formMethod = 'form')
+    {
+        if (method_exists($this, $formMethod) && isset($this->{$stateProperty}) && is_array($this->{$stateProperty})) {
+            /** @var Form $form */
+            $form = $this->{$formMethod}();
+            $this->{$stateProperty} = $form->protectCanReadonlyValues($this->{$stateProperty});
+        }
+    }
+
     public function validateForm(string $stateProperty = 'state', ?string $formMethod = 'form'): array
     {
+        $this->protectFormState($stateProperty, $formMethod);
         $rules = $this->getFormRules($stateProperty, $formMethod);
         $messages = $this->getFormValidationMessages($stateProperty, $formMethod);
         $attributes = $this->getFormValidationAttributes($stateProperty, $formMethod);
@@ -134,6 +150,8 @@ trait InteractsWithForms
         } else {
             $this->currentStep++;
         }
+
+        $this->updatedWizardStep($this->currentStep);
     }
 
     public function previousStep(): void
@@ -141,6 +159,8 @@ trait InteractsWithForms
         if ($this->currentStep > 0) {
             $this->currentStep--;
         }
+
+        $this->updatedWizardStep($this->currentStep);
     }
 
     public function goToStep(int $step, string $stateProperty = 'state', ?string $formMethod = 'form'): void
@@ -167,6 +187,7 @@ trait InteractsWithForms
 
     public function validateStep(?int $step = null, string $stateProperty = 'state', ?string $formMethod = 'form'): array
     {
+        $this->protectFormState($stateProperty, $formMethod);
         $step ??= $this->currentStep;
 
         if (method_exists($this, $formMethod)) {
@@ -276,6 +297,76 @@ trait InteractsWithForms
 
     public function resetWizard(): void
     {
+        $this->updatedWizardStep(0);
         $this->currentStep = 0;
+    }
+
+    public function getFormSummary(
+        string $stateProperty = 'state',
+        ?string $formMethod = 'form',
+    ): array {
+        if (! method_exists($this, $formMethod)) {
+            return [];
+        }
+
+        // Restore server-authoritative values for canReadonly() fields.
+        $this->protectFormState($stateProperty, $formMethod);
+
+        /** @var \Xenio\LivewireForms\Form $form */
+        $form = $this->{$formMethod}();
+        $state = $this->{$stateProperty} ?? [];
+        $summary = [];
+
+        foreach ($form->getFieldsets() as $fieldset) {
+            if (! $fieldset->isAuthorized() || ! $fieldset->isVisibleFor($state)) {
+                continue;
+            }
+
+            foreach ($fieldset->getFields() as $field) {
+                if (! $field->isAuthorized() || ! $field->isVisibleFor($state)) {
+                    continue;
+                }
+
+                if ($field instanceof Heading) {
+                    $summary[] = [
+                        'type' => 'heading',
+                        'label' => $field->getText(),
+                        'value' => null,
+                    ];
+
+                    continue;
+                }
+
+                if (! $field->hasValue()) {
+                    continue;
+                }
+
+                $value = data_get($state, $field->getName());
+
+                $summary[] = [
+                    'type' => 'input',
+                    'label' => $field->getLabel(),
+                    'value' => $this->formatSummaryValue($value),
+                ];
+            }
+        }
+
+        return $summary;
+    }
+
+    protected function formatSummaryValue(mixed $value): mixed
+    {
+        if (is_bool($value)) {
+            return $value ? 'Ja' : 'Nein';
+        }
+
+        if (is_array($value)) {
+            return implode(', ', array_map(
+                fn (mixed $item): string => (string) $item,
+                $value,
+            ));
+        }
+
+        return $value;
     }
 }

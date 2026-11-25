@@ -1,8 +1,8 @@
 <?php
 
-namespace Erag\InertiaForms\Fields\Concerns;
+namespace Xenio\LivewireForms\Fields\Concerns;
 
-use Erag\InertiaForms\Support\Options;
+use Xenio\LivewireForms\Support\Options;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Validation\Rule;
 

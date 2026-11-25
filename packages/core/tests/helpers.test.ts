@@ -215,7 +215,7 @@ describe('builder', () => {
 });
 
 describe('remote options', () => {
-    const search = { url: '/_inertia-forms/search', token: 'encrypted', field: 'author_id' };
+    const search = { url: '/_livewire-forms/search', token: 'encrypted', field: 'author_id' };
 
     it('posts the token, field and search text and returns the options', async () => {
         const fetchMock = vi.fn(
@@ -231,7 +231,7 @@ describe('remote options', () => {
         ]);
 
         const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
-        expect(url).toBe('/_inertia-forms/search');
+        expect(url).toBe('/_livewire-forms/search');
         expect(init.method).toBe('POST');
         expect(JSON.parse(init.body as string)).toEqual({
             form: 'encrypted',

@@ -1,9 +1,9 @@
 <?php
 
-use Erag\InertiaForms\Fields\Fieldset;
-use Erag\InertiaForms\Fields\Textarea;
-use Erag\InertiaForms\Fields\TextInput;
-use Erag\InertiaForms\Form;
+use Xenio\LivewireForms\Fields\Fieldset;
+use Xenio\LivewireForms\Fields\Textarea;
+use Xenio\LivewireForms\Fields\TextInput;
+use Xenio\LivewireForms\Form;
 use Illuminate\Support\Facades\View;
 
 beforeEach(function () {
@@ -19,7 +19,7 @@ it('resolves default package views for fields when unconfigured', function () {
 });
 
 it('resolves field views by kebab-case config mapping', function () {
-    config()->set('inertia-forms.components.text-input', 'custom.kebab.input');
+    config()->set('livewire-forms.components.text-input', 'custom.kebab.input');
 
     $field = TextInput::make('first_name');
 
@@ -27,7 +27,7 @@ it('resolves field views by kebab-case config mapping', function () {
 });
 
 it('resolves field views by component name config mapping', function () {
-    config()->set('inertia-forms.components.TextInput', 'custom.pascal.input');
+    config()->set('livewire-forms.components.TextInput', 'custom.pascal.input');
 
     $field = TextInput::make('first_name');
 
@@ -35,7 +35,7 @@ it('resolves field views by component name config mapping', function () {
 });
 
 it('resolves field views by class FQCN config mapping', function () {
-    config()->set('inertia-forms.components.'.TextInput::class, 'custom.fqcn.input');
+    config()->set('livewire-forms.components.'.TextInput::class, 'custom.fqcn.input');
 
     $field = TextInput::make('first_name');
 
@@ -43,9 +43,9 @@ it('resolves field views by class FQCN config mapping', function () {
 });
 
 it('prioritizes class FQCN over component name and kebab name in config', function () {
-    config()->set('inertia-forms.components.text-input', 'custom.kebab.input');
-    config()->set('inertia-forms.components.TextInput', 'custom.pascal.input');
-    config()->set('inertia-forms.components.'.TextInput::class, 'custom.fqcn.input');
+    config()->set('livewire-forms.components.text-input', 'custom.kebab.input');
+    config()->set('livewire-forms.components.TextInput', 'custom.pascal.input');
+    config()->set('livewire-forms.components.'.TextInput::class, 'custom.fqcn.input');
 
     $field = TextInput::make('first_name');
 
@@ -53,8 +53,8 @@ it('prioritizes class FQCN over component name and kebab name in config', functi
 });
 
 it('prioritizes component name over kebab name in config', function () {
-    config()->set('inertia-forms.components.text-input', 'custom.kebab.input');
-    config()->set('inertia-forms.components.TextInput', 'custom.pascal.input');
+    config()->set('livewire-forms.components.text-input', 'custom.kebab.input');
+    config()->set('livewire-forms.components.TextInput', 'custom.pascal.input');
 
     $field = TextInput::make('first_name');
 
@@ -62,7 +62,7 @@ it('prioritizes component name over kebab name in config', function () {
 });
 
 it('prioritizes instance-level view override over config mappings', function () {
-    config()->set('inertia-forms.components.'.TextInput::class, 'custom.fqcn.input');
+    config()->set('livewire-forms.components.'.TextInput::class, 'custom.fqcn.input');
 
     $field = TextInput::make('first_name')->view('custom.instance.input');
 
@@ -83,14 +83,14 @@ it('resolves fieldset and form views by default, config, and instance overrides'
         ->and($form->getView())->toBe('forms::form');
 
     // Config mapping by string
-    config()->set('inertia-forms.components.fieldset', 'custom.fieldset');
-    config()->set('inertia-forms.components.form', 'custom.form');
+    config()->set('livewire-forms.components.fieldset', 'custom.fieldset');
+    config()->set('livewire-forms.components.form', 'custom.form');
 
     expect($fieldset->getView())->toBe('custom.fieldset')
         ->and($form->getView())->toBe('custom.form');
 
     // Config mapping by FQCN
-    config()->set('inertia-forms.components.'.Fieldset::class, 'custom.fqcn.fieldset');
+    config()->set('livewire-forms.components.'.Fieldset::class, 'custom.fqcn.fieldset');
     expect($fieldset->getView())->toBe('custom.fqcn.fieldset');
 
     // Instance-level override
@@ -101,11 +101,11 @@ it('resolves fieldset and form views by default, config, and instance overrides'
         ->and($form->getView())->toBe('custom.instance.form');
 });
 
-it('renders custom Blade components configured via inertia-forms.components', function () {
-    config()->set('inertia-forms.components.text-input', 'test-fixtures::custom-input');
-    config()->set('inertia-forms.components.field', 'test-fixtures::custom-wrapper');
-    config()->set('inertia-forms.components.fieldset', 'test-fixtures::custom-fieldset');
-    config()->set('inertia-forms.components.form', 'test-fixtures::custom-form');
+it('renders custom Blade components configured via livewire-forms.components', function () {
+    config()->set('livewire-forms.components.text-input', 'test-fixtures::custom-input');
+    config()->set('livewire-forms.components.field', 'test-fixtures::custom-wrapper');
+    config()->set('livewire-forms.components.fieldset', 'test-fixtures::custom-fieldset');
+    config()->set('livewire-forms.components.form', 'test-fixtures::custom-form');
 
     $form = new class extends Form
     {
